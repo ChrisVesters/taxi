@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.github.cvesters.taxi.dispatcher.location.bdo.Location;
+
 class TaxiTest {
 
 	private static final long ID = 1L;

@@ -4,12 +4,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.github.cvesters.taxi.dispatcher.taxi.bdo.Location;
+import com.github.cvesters.taxi.dispatcher.location.bdo.Location;
+import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
+import com.github.cvesters.taxi.dispatcher.location.dto.LocationDto;
 import com.github.cvesters.taxi.dispatcher.taxi.bdo.Taxi;
 import com.github.cvesters.taxi.dispatcher.taxi.bdo.TaxiStatus;
-import com.github.cvesters.taxi.dispatcher.taxi.dao.LocationDao;
 import com.github.cvesters.taxi.dispatcher.taxi.dao.TaxiDao;
-import com.github.cvesters.taxi.dispatcher.taxi.dto.LocationDto;
 import com.github.cvesters.taxi.dispatcher.taxi.dto.TaxiDto;
 
 public record TestTaxi(long id, TaxiStatus status, Location location) {
@@ -23,8 +23,8 @@ public record TestTaxi(long id, TaxiStatus status, Location location) {
 		when(dao.getStatus()).thenReturn(status.ordinal());
 
 		final LocationDao locationDao = mock(LocationDao.class);
-		when(locationDao.getLatitude()).thenReturn(0.0);
-		when(locationDao.getLongitude()).thenReturn(0.0);
+		when(locationDao.getLatitude()).thenReturn(location.latitude());
+		when(locationDao.getLongitude()).thenReturn(location.longitude());
 		when(dao.getLocation()).thenReturn(locationDao);
 
 		return dao;

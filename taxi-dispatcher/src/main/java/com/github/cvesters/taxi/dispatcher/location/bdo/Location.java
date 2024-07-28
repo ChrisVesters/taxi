@@ -1,4 +1,4 @@
-package com.github.cvesters.taxi.dispatcher.taxi.bdo;
+package com.github.cvesters.taxi.dispatcher.location.bdo;
 
 import org.apache.commons.lang3.Validate;
 

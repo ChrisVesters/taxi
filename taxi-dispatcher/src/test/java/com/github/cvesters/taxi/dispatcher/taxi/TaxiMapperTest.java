@@ -10,8 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
 import com.github.cvesters.taxi.dispatcher.taxi.bdo.Taxi;
-import com.github.cvesters.taxi.dispatcher.taxi.dao.LocationDao;
 import com.github.cvesters.taxi.dispatcher.taxi.dao.TaxiDao;
 import com.github.cvesters.taxi.dispatcher.taxi.dto.TaxiDto;
 

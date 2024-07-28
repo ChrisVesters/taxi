@@ -1,5 +1,7 @@
 package com.github.cvesters.taxi.dispatcher.taxi.dao;
 
+import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

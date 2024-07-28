@@ -1,4 +1,4 @@
-package com.github.cvesters.taxi.dispatcher.taxi.bdo;
+package com.github.cvesters.taxi.dispatcher.location.bdo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

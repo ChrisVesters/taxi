@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.github.cvesters.taxi.dispatcher.location.dto.LocationDto;
+
 class TaxiDtoTest {
 
 	private static final long ID = 1;

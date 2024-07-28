@@ -2,6 +2,8 @@ package com.github.cvesters.taxi.dispatcher.taxi.bdo;
 
 import java.util.Objects;
 
+import com.github.cvesters.taxi.dispatcher.location.bdo.Location;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
