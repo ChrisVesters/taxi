@@ -3,6 +3,8 @@ package com.github.cvesters.taxi.dispatcher.booking;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.cvesters.taxi.dispatcher.booking.bdo.Booking;
 import com.github.cvesters.taxi.dispatcher.booking.bdo.BookingStatus;
@@ -12,22 +14,24 @@ import com.github.cvesters.taxi.dispatcher.location.bdo.Location;
 import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
 import com.github.cvesters.taxi.dispatcher.location.dto.LocationDto;
 
-public record TestBooking(long id, BookingStatus status, Location start, Location destination, Long taxiId) {
+public record TestBooking(Long id, BookingStatus status, Location start, Location destination, Long taxiId) {
 
-	public static final TestBooking OPEN = new TestBooking(1, BookingStatus.OPEN, new Location(0.0, 0.0),
+	public static final TestBooking NEW = new TestBooking(null, BookingStatus.OPEN, new Location(0.0, 0.0),
 			new Location(1.0, 1.0), null);
-	public static final TestBooking ASSIGNED = new TestBooking(1, BookingStatus.ASSIGNED, new Location(0.0, 0.0),
+	public static final TestBooking OPEN = new TestBooking(1L, BookingStatus.OPEN, new Location(0.0, 0.0),
+			new Location(1.0, 1.0), null);
+	public static final TestBooking ASSIGNED = new TestBooking(1L, BookingStatus.ASSIGNED, new Location(0.0, 0.0),
 			new Location(1.0, 1.0), 1L);
-	public static final TestBooking IN_PROGRESS = new TestBooking(1, BookingStatus.IN_PROGRESS, new Location(0.0, 0.0),
+	public static final TestBooking IN_PROGRESS = new TestBooking(1L, BookingStatus.IN_PROGRESS, new Location(0.0, 0.0),
 			new Location(1.0, 1.0), 1L);
-	public static final TestBooking COMPLETED = new TestBooking(1, BookingStatus.COMPLETED, new Location(0.0, 0.0),
+	public static final TestBooking COMPLETED = new TestBooking(1L, BookingStatus.COMPLETED, new Location(0.0, 0.0),
 			new Location(1.0, 1.0), 2L);
-	public static final TestBooking CANCELLED = new TestBooking(1, BookingStatus.CANCELLED, new Location(0.0, 0.0),
+	public static final TestBooking CANCELLED = new TestBooking(1L, BookingStatus.CANCELLED, new Location(0.0, 0.0),
 			new Location(1.0, 1.0), null);
 
 	public BookingDao createDao() {
 		final BookingDao dao = mock(BookingDao.class);
-		when(dao.getId()).thenReturn(id);
+		when(dao.getId()).thenReturn(Optional.ofNullable(id).orElse(0L));
 		when(dao.getStatus()).thenReturn(status.ordinal());
 
 		final LocationDao sourceDao = mock(LocationDao.class);

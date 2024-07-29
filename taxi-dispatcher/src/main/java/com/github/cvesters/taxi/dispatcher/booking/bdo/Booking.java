@@ -13,13 +13,17 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class Booking {
 
-	private long id;
+	private Long id;
 	private BookingStatus status;
 	private Location start;
 	private Location destination;
 	private Long taxiId;
 
-	public Booking(final long id, final BookingStatus status, final Location start, final Location destination,
+	public Booking(final Location start, final Location destination) {
+		this(null, BookingStatus.OPEN, start, destination, null);
+	}
+
+	public Booking(final Long id, final BookingStatus status, final Location start, final Location destination,
 			final Long taxiId) {
 		Objects.requireNonNull(status);
 		Objects.requireNonNull(start);
