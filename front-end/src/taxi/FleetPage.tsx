@@ -8,9 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-import { Taxi, TaxiStatus } from "./TaxiTypes";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+
+import { Taxi, TaxiStatus } from "./TaxiTypes";
 import { asTitle } from "../utils/TextUtils";
+import { format } from "../location/LocationUtils";
 
 import config from "../config.json";
 
@@ -58,11 +60,8 @@ export default function FleetPage(): JSX.Element {
           {fleet.map((taxi) => (
             <TableRow key={taxi.id}>
               <TableCell scope="row">{taxi.id}</TableCell>
-              <TableCell>{t(taxi.status)}</TableCell>
-              <TableCell align="right">
-                {taxi.location.latitude.toFixed(4)},
-                {taxi.location.longitude.toFixed(4)}
-              </TableCell>
+              <TableCell>{asTitle(t(taxi.status))}</TableCell>
+              <TableCell align="right">{format(taxi.location)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
