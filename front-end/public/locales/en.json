@@ -1,3 +1,19 @@
 {
-	"fleet": "fleet"
+	"fleet": "fleet",
+	"booking_other": "bookings",
+	"overview": "Overview",
+	"id": "id",
+	"status": "status",
+	"location": "location",
+	"AVAILABLE": "available",
+	"BOOKED": "booked",
+	"origin": "origin",
+	"destingation": "destination",
+	"assignedTo": "assigned to",
+	"unassigned": "unassigned",
+	"OPEN": "open",
+	"ASSIGNED": "assigned",
+	"IN_PROGRESS": "in progress",
+	"COMPLETED": "completed",
+	"CANCELLED": "cancelled"
 }
