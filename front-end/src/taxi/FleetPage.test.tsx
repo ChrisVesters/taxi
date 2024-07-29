@@ -2,6 +2,7 @@ import { screen, render, getAllByRole, waitFor } from "@testing-library/react";
 
 import FleetPage from "./FleetPage";
 import { Taxi, TaxiStatus } from "./TaxiTypes";
+import { format } from "../location/LocationUtils";
 
 jest.mock("@mui/x-charts/Gauge", () => ({
   Gauge: jest.fn().mockImplementation(({ children }) => children),
@@ -78,7 +79,7 @@ test("renders data", async () => {
   );
 
   const rows = screen.getAllByRole("row");
-  expect(rows).toHaveLength(3);
+  expect(rows).toHaveLength(data.length + 1);
 
   const tableHeaders = getAllByRole(rows[0], "columnheader");
   expect(tableHeaders[0]).toHaveTextContent("Id");
@@ -89,10 +90,6 @@ test("renders data", async () => {
     const row = getAllByRole(rows[index + 1], "cell");
     expect(row[0]).toHaveTextContent(taxi.id.toString());
     expect(row[1]).toHaveTextContent(taxi.status);
-    expect(row[2]).toHaveTextContent(
-      taxi.location.latitude.toFixed(4) +
-        "," +
-        taxi.location.longitude.toFixed(4)
-    );
+    expect(row[2]).toHaveTextContent(format(taxi.location));
   });
 });
