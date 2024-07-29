@@ -41,6 +41,20 @@ class LocationMapperTest {
 	}
 
 	@Nested
+	class ToDao {
+
+		@Test
+		void success() {
+			final Location location = new Location(0.0, 0.0);
+
+			final LocationDao dao = LocationMapper.toDao(location);
+
+			assertThat(dao.getLatitude()).isEqualTo(0.0);
+			assertThat(dao.getLongitude()).isEqualTo(0.0);
+		}
+	}
+
+	@Nested
 	class ToDto {
 
 		@Test

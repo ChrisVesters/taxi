@@ -23,10 +23,32 @@ class BookingTest {
 	class Constructor {
 
 		@Test
-		void valid() {
+		void newBooking() {
+			final var booking = new Booking(START, DESTINATION);
+
+			assertThat(booking.getId()).isNull();
+			assertThat(booking.getStatus()).isEqualTo(BookingStatus.OPEN);
+			assertThat(booking.getStart()).isEqualTo(START);
+			assertThat(booking.getDestination()).isEqualTo(DESTINATION);
+			assertThat(booking.getTaxiId()).isNull();
+		}
+
+		@Test
+		void allParameters() {
 			final var booking = new Booking(ID, STATUS, START, DESTINATION, TAXI_ID);
 
 			assertThat(booking.getId()).isEqualTo(ID);
+			assertThat(booking.getStatus()).isEqualTo(STATUS);
+			assertThat(booking.getStart()).isEqualTo(START);
+			assertThat(booking.getDestination()).isEqualTo(DESTINATION);
+			assertThat(booking.getTaxiId()).isEqualTo(TAXI_ID);
+		}
+
+		@Test
+		void nullId() {
+			final var booking = new Booking(null, STATUS, START, DESTINATION, TAXI_ID);
+
+			assertThat(booking.getId()).isNull();
 			assertThat(booking.getStatus()).isEqualTo(STATUS);
 			assertThat(booking.getStart()).isEqualTo(START);
 			assertThat(booking.getDestination()).isEqualTo(DESTINATION);

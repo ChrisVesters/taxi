@@ -73,7 +73,7 @@ public class BookingRepositoryTest {
 		void create() {
 			final var source = new LocationDao(0.0, 0.0);
 			final var target = new LocationDao(0.2, 0.1);
-			final BookingDao saved = repository.save(new BookingDao(source, target));
+			final BookingDao saved = repository.save(new BookingDao(0, source, target, null));
 
 			final BookingDao found = entityManager.find(BookingDao.class, saved.getId());
 			assertThat(found).isNotNull();

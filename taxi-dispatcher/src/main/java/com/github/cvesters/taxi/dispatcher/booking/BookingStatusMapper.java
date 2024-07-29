@@ -29,6 +29,10 @@ public final class BookingStatusMapper {
 				.orElseThrow(IllegalArgumentException::new);
 	}
 
+	public static int toDao(final BookingStatus status) {
+		return DAO_MAPPING.get(status);
+	}
+
 	public static String toDto(final BookingStatus status) {
 		return switch (status) {
 			case OPEN -> "OPEN";

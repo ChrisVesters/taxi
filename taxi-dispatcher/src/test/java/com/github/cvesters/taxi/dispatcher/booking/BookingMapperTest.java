@@ -51,6 +51,27 @@ public class BookingMapperTest {
 	}
 
 	@Nested
+	class ToDao {
+
+		@Test
+		void single() {
+			final TestBooking testBooking = TestBooking.OPEN;
+			final Booking booking = testBooking.createBdo();
+
+			final BookingDao dao = BookingMapper.toDao(booking);
+
+			final BookingDao expected = testBooking.createDao();
+			assertThat(dao.getId()).isZero();
+			assertThat(dao.getStatus()).isEqualTo(expected.getStatus());
+			assertThat(dao.getStart().getLatitude()).isEqualTo(expected.getStart().getLatitude());
+			assertThat(dao.getStart().getLongitude()).isEqualTo(expected.getStart().getLongitude());
+			assertThat(dao.getDestination().getLatitude()).isEqualTo(expected.getDestination().getLatitude());
+			assertThat(dao.getDestination().getLongitude()).isEqualTo(expected.getDestination().getLongitude());
+			assertThat(dao.getTaxiId()).isEqualTo(expected.getTaxiId());
+		}
+	}
+
+	@Nested
 	class ToDto {
 
 		@Test
