@@ -33,6 +33,17 @@ public final class BookingStatusMapper {
 		return DAO_MAPPING.get(status);
 	}
 
+	public static BookingStatus fromDto(final String status) {
+		return switch (status) {
+			case "OPEN" -> BookingStatus.OPEN;
+			case "ASSIGNED" -> BookingStatus.ASSIGNED;
+			case "IN_PROGRESS" -> BookingStatus.IN_PROGRESS;
+			case "COMPLETED" -> BookingStatus.COMPLETED;
+			case "CANCELLED" -> BookingStatus.CANCELLED;
+			default -> throw new IllegalArgumentException("Invalid booking status: " + status);
+		};
+	}
+
 	public static String toDto(final BookingStatus status) {
 		return switch (status) {
 			case OPEN -> "OPEN";

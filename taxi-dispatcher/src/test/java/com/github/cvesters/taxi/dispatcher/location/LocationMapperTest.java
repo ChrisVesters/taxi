@@ -20,13 +20,13 @@ class LocationMapperTest {
 		@Test
 		void success() {
 			final LocationDao dao = mock(LocationDao.class);
-			when(dao.getLatitude()).thenReturn(0.0);
-			when(dao.getLongitude()).thenReturn(0.0);
+			when(dao.getLatitude()).thenReturn(45.0);
+			when(dao.getLongitude()).thenReturn(67.0);
 
 			final Location location = LocationMapper.fromDao(dao);
 
-			assertThat(location.latitude()).isEqualTo(0.0);
-			assertThat(location.longitude()).isEqualTo(0.0);
+			assertThat(location.latitude()).isEqualTo(45.0);
+			assertThat(location.longitude()).isEqualTo(67.0);
 		}
 
 		@Test
@@ -55,16 +55,37 @@ class LocationMapperTest {
 	}
 
 	@Nested
+	class FromDto {
+
+		@Test
+		void success() {
+			final LocationDto dto = new LocationDto(3.4, 6.7);
+
+			final Location location = LocationMapper.fromDto(dto);
+
+			assertThat(location.latitude()).isEqualTo(dto.latitude());
+			assertThat(location.longitude()).isEqualTo(dto.longitude());
+		}
+
+		@Test
+		void invalid() {
+			final LocationDto dto = new LocationDto(334.4, 6.7);
+
+			assertThatThrownBy(() -> LocationMapper.fromDto(dto)).isInstanceOf(IllegalArgumentException.class);
+		}
+	}
+
+	@Nested
 	class ToDto {
 
 		@Test
 		void success() {
-			final Location location = new Location(0.0, 0.0);
+			final Location location = new Location(23.0, 77.2);
 
 			final LocationDto dto = LocationMapper.toDto(location);
 
-			assertThat(dto.latitude()).isEqualTo(0.0);
-			assertThat(dto.longitude()).isEqualTo(0.0);
+			assertThat(dto.latitude()).isEqualTo(location.latitude());
+			assertThat(dto.longitude()).isEqualTo(location.longitude());
 		}
 	}
 }

@@ -26,6 +26,10 @@ public final class TaxiStatusMapper {
 				.orElseThrow(IllegalArgumentException::new);
 	}
 
+	public static int toDao(final TaxiStatus status) {
+		return DAO_MAPPING.get(status);
+	}
+
 	public static String toDto(final TaxiStatus status) {
 		return switch (status) {
 			case AVAILABLE -> "AVAILABLE";

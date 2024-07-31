@@ -5,7 +5,6 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.ExchangeBuilder;
-import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +34,7 @@ public class BookingMessagingConfig {
 	}
 
 	@Bean
-	Binding binding() {
+	Binding newBookingsBinding() {
 		return BindingBuilder
 				.bind(newBookingsQueue())
 				.to(bookingsExchange())
@@ -48,17 +47,10 @@ public class BookingMessagingConfig {
 	}
 
 	@Bean
-	Binding jsonBinding() {
+	Binding updateBookingsBinding() {
 		return BindingBuilder
 				.bind(updateBookingsQueue())
 				.to(bookingsExchange())
 				.withQueueName();
-	}
-
-	// TODO: move
-	// TODO: do we need to setup all the queues for the taxi?
-	@Bean
-	FanoutExchange fleetExchange() {
-		return new FanoutExchange("fleet");
 	}
 }

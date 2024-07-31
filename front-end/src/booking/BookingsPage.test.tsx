@@ -48,7 +48,7 @@ test("renders data", async () => {
     {
       id: 1,
       status: BookingStatus.COMPLETED,
-      origin: {
+      start: {
         latitude: 48.858093,
         longitude: 2.294694,
       },
@@ -56,12 +56,12 @@ test("renders data", async () => {
         latitude: 48.858093,
         longitude: 2.294694,
       },
-      taxi: 1,
+      taxiId: 1,
     },
     {
       id: 2,
       status: BookingStatus.IN_PROGRESS,
-      origin: {
+      start: {
         latitude: 48.858093,
         longitude: 2.294694,
       },
@@ -69,12 +69,12 @@ test("renders data", async () => {
         latitude: 48.858093,
         longitude: 2.294694,
       },
-      taxi: 1,
+      taxiId: 1,
     },
     {
       id: 3,
       status: BookingStatus.CANCELLED,
-      origin: {
+      start: {
         latitude: 48.858093,
         longitude: 2.294694,
       },
@@ -82,12 +82,12 @@ test("renders data", async () => {
         latitude: 48.858093,
         longitude: 2.294694,
       },
-      taxi: null,
+      taxiId: null,
     },
     {
       id: 4,
       status: BookingStatus.OPEN,
-      origin: {
+      start: {
         latitude: 48.858093,
         longitude: 2.294694,
       },
@@ -95,7 +95,7 @@ test("renders data", async () => {
         latitude: 48.858093,
         longitude: 2.294694,
       },
-      taxi: null,
+      taxiId: null,
     },
   ];
 
@@ -131,8 +131,8 @@ test("renders data", async () => {
     const row = getAllByRole(rows[index + 1], "cell");
     expect(row[0]).toHaveTextContent(booking.id.toString());
     expect(row[1]).toHaveTextContent(booking.status);
-    expect(row[2]).toHaveTextContent(format(booking.origin));
+    expect(row[2]).toHaveTextContent(format(booking.start));
     expect(row[3]).toHaveTextContent(format(booking.destination));
-    expect(row[4]).toHaveTextContent(booking.taxi?.toString() ?? "Unassigned");
+    expect(row[4]).toHaveTextContent(booking.taxiId?.toString() ?? "Unassigned");
   });
 });

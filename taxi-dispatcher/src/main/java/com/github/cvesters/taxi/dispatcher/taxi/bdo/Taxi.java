@@ -24,4 +24,11 @@ public class Taxi {
 		this.location = location;
 	}
 
+	public void setAvailable() {
+		this.status = TaxiStatus.AVAILABLE;
+	}
+
+	public void setBooked() {
+		this.status = TaxiStatus.BOOKED;
+	}
 }
