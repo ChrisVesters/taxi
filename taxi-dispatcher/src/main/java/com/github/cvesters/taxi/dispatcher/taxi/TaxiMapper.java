@@ -27,6 +27,12 @@ public final class TaxiMapper {
 		return new Taxi(id, status, location);
 	}
 
+	public static TaxiDao updateDao(final TaxiDao dao, final Taxi taxi) {
+		dao.setStatus(TaxiStatusMapper.toDao(taxi.getStatus()));
+		dao.setLocation(LocationMapper.toDao(taxi.getLocation()));
+		return dao;
+	}
+
 	public static List<TaxiDto> toDto(final List<Taxi> taxis) {
 		return taxis.stream().map(TaxiMapper::toDto).toList();
 	}

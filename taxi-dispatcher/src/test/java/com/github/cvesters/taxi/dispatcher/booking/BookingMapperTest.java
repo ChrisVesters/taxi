@@ -2,6 +2,9 @@ package com.github.cvesters.taxi.dispatcher.booking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.github.cvesters.taxi.dispatcher.booking.bdo.Booking;
 import com.github.cvesters.taxi.dispatcher.booking.dao.BookingDao;
 import com.github.cvesters.taxi.dispatcher.booking.dto.BookingDto;
+import com.github.cvesters.taxi.dispatcher.location.dto.LocationDto;
 
 public class BookingMapperTest {
 
@@ -51,23 +55,52 @@ public class BookingMapperTest {
 	}
 
 	@Nested
-	class ToDao {
+	class UpdateDao {
 
 		@Test
 		void single() {
 			final TestBooking testBooking = TestBooking.OPEN;
 			final Booking booking = testBooking.createBdo();
+			final BookingDao dao = mock(BookingDao.class);
 
-			final BookingDao dao = BookingMapper.toDao(booking);
+			final BookingDao updated = BookingMapper.updateDao(dao, booking);
 
-			final BookingDao expected = testBooking.createDao();
-			assertThat(dao.getId()).isZero();
-			assertThat(dao.getStatus()).isEqualTo(expected.getStatus());
-			assertThat(dao.getStart().getLatitude()).isEqualTo(expected.getStart().getLatitude());
-			assertThat(dao.getStart().getLongitude()).isEqualTo(expected.getStart().getLongitude());
-			assertThat(dao.getDestination().getLatitude()).isEqualTo(expected.getDestination().getLatitude());
-			assertThat(dao.getDestination().getLongitude()).isEqualTo(expected.getDestination().getLongitude());
-			assertThat(dao.getTaxiId()).isEqualTo(expected.getTaxiId());
+			assertThat(updated).isEqualTo(dao);
+			verify(dao).setStart(argThat(location -> {
+				assertThat(location.getLatitude()).isEqualTo(booking.getStart().latitude());
+				assertThat(location.getLongitude()).isEqualTo(booking.getStart().longitude());
+				return true;
+			}));
+			verify(dao).setDestination(argThat(location -> {
+				assertThat(location.getLatitude()).isEqualTo(booking.getDestination().latitude());
+				assertThat(location.getLongitude()).isEqualTo(booking.getDestination().longitude());
+				return true;
+			}));
+			verify(dao).setStatus(booking.getStatus().ordinal());
+			verify(dao).setTaxiId(booking.getTaxiId());
+		}
+	}
+
+	@Nested
+	class FromDto {
+
+		@Test
+		void single() {
+			final TestBooking testBooking = TestBooking.OPEN;
+			final BookingDto dto = testBooking.createDto();
+
+			final Booking booking = BookingMapper.fromDto(dto);
+
+			assertThat(booking).isEqualTo(testBooking.createBdo());
+		}
+
+		@Test
+		void invalidObject() {
+			final LocationDto location = new LocationDto(0.0, 0.0);
+			final BookingDto dto = new BookingDto(1L, "INVALID", location, location, null);
+
+			assertThatThrownBy(() -> BookingMapper.fromDto(dto))
+					.isInstanceOf(IllegalArgumentException.class);
 		}
 	}
 

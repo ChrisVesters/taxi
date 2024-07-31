@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.github.cvesters.taxi.dispatcher.booking.dao.BookingDao;
-import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -71,9 +70,7 @@ public class BookingRepositoryTest {
 
 		@Test
 		void create() {
-			final var source = new LocationDao(0.0, 0.0);
-			final var target = new LocationDao(0.2, 0.1);
-			final BookingDao saved = repository.save(new BookingDao(0, source, target, null));
+			final BookingDao saved = repository.save(new BookingDao());
 
 			final BookingDao found = entityManager.find(BookingDao.class, saved.getId());
 			assertThat(found).isNotNull();

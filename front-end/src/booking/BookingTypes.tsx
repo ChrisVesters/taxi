@@ -3,9 +3,9 @@ import { Location } from "../location/LocationTypes";
 export type Booking = {
   id: number;
   status: BookingStatusType;
-  origin: Location;
+  start: Location;
   destination: Location;
-  taxi: number | null;
+  taxiId: number | null;
 };
 
 export const BookingStatus = {

@@ -8,7 +8,6 @@ import com.github.cvesters.taxi.dispatcher.booking.dao.BookingDao;
 import com.github.cvesters.taxi.dispatcher.booking.dto.BookingDto;
 import com.github.cvesters.taxi.dispatcher.location.LocationMapper;
 import com.github.cvesters.taxi.dispatcher.location.bdo.Location;
-import com.github.cvesters.taxi.dispatcher.location.dao.LocationDao;
 import com.github.cvesters.taxi.dispatcher.location.dto.LocationDto;
 
 public final class BookingMapper {
@@ -30,13 +29,22 @@ public final class BookingMapper {
 		return new Booking(id, status, start, destination, taxiId);
 	}
 
-	public static BookingDao toDao(final Booking booking) {
-		final int status =  BookingStatusMapper.toDao(booking.getStatus());
-		final LocationDao start = LocationMapper.toDao(booking.getStart());
-		final LocationDao destination = LocationMapper.toDao(booking.getDestination());
-		final Long taxiId = booking.getTaxiId();
+	public static BookingDao updateDao(final BookingDao dao, final Booking booking) {
+		dao.setStatus(BookingStatusMapper.toDao(booking.getStatus()));
+		dao.setStart(LocationMapper.toDao(booking.getStart()));
+		dao.setDestination(LocationMapper.toDao(booking.getDestination()));
+		dao.setTaxiId(booking.getTaxiId());
+		return dao;
+	}
 
-		return new BookingDao(status, start, destination, taxiId);
+	public static Booking fromDto(final BookingDto dto) {
+		final long id = dto.id();
+		final BookingStatus status = BookingStatusMapper.fromDto(dto.status());
+		final Location start = LocationMapper.fromDto(dto.start());
+		final Location destination = LocationMapper.fromDto(dto.destination());
+		final Long taxiId = dto.taxiId();
+
+		return new Booking(id, status, start, destination, taxiId);
 	}
 
 	public static List<BookingDto> toDto(final List<Booking> bookings) {

@@ -17,6 +17,10 @@ public final class LocationMapper {
 		return new LocationDao(location.latitude(), location.longitude());
 	}
 
+	public static Location fromDto(final LocationDto dto) {
+		return new Location(dto.latitude(), dto.longitude());
+	}
+
 	public static LocationDto toDto(final Location location) {
 		return new LocationDto(location.latitude(), location.longitude());
 	}

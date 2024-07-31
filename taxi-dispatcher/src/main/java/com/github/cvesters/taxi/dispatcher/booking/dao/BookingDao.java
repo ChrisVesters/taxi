@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Entity(name = "bookings")
 public class BookingDao {
 
@@ -39,12 +39,4 @@ public class BookingDao {
 
 	@Column(name = "taxi_id")
 	private Long taxiId;
-
-	public BookingDao(final int status, final LocationDao start,
-			final LocationDao destination, final Long taxiId) {
-		this.status = status;
-		this.start = start;
-		this.destination = destination;
-		this.taxiId = taxiId;
-	}
 }

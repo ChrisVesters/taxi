@@ -68,10 +68,10 @@ export default function BookingsPage(): JSX.Element {
             <TableRow key={booking.id}>
               <TableCell scope="row">{booking.id}</TableCell>
               <TableCell>{asTitle(t(booking.status))}</TableCell>
-              <TableCell align="right">{format(booking.origin)}</TableCell>
+              <TableCell align="right">{format(booking.start)}</TableCell>
               <TableCell align="right">{format(booking.destination)}</TableCell>
               <TableCell align="right">
-                {booking.taxi ?? asTitle(t("unassigned"))}
+                {booking.taxiId ?? asTitle(t("unassigned"))}
               </TableCell>
             </TableRow>
           ))}

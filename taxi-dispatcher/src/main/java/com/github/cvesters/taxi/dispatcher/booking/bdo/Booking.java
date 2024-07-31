@@ -1,6 +1,7 @@
 package com.github.cvesters.taxi.dispatcher.booking.bdo;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
 
@@ -42,6 +43,28 @@ public class Booking {
 		this.start = start;
 		this.destination = destination;
 		this.taxiId = taxiId;
+	}
+
+	public void update(final BookingStatus status) {
+		update(status, null);
+	}
+
+	public void update(final BookingStatus status, final Long taxiId) {
+		Objects.requireNonNull(status);
+		Validate.isTrue(status != BookingStatus.OPEN);
+		Validate.isTrue(this.status != BookingStatus.COMPLETED && this.status != BookingStatus.CANCELLED);
+		Validate.isTrue(this.status != status);
+
+		if ((status != BookingStatus.CANCELLED) && this.taxiId == null) {
+			Objects.requireNonNull(taxiId);
+		}
+
+		if (this.status == BookingStatus.IN_PROGRESS) {
+			Validate.isTrue(status == BookingStatus.COMPLETED || status == BookingStatus.CANCELLED);
+		}
+
+		this.status = status;
+		this.taxiId = Optional.ofNullable(taxiId).orElse(this.taxiId);
 	}
 
 	private static boolean requiresTaxiId(final BookingStatus status) {

@@ -40,6 +40,16 @@ class TaxiStatusMapperTest {
 	}
 
 	@Nested
+	class ToDao {
+
+		@ParameterizedTest
+		@MethodSource("com.github.cvesters.taxi.dispatcher.taxi.TaxiStatusMapperTest#statusMappings")
+		void valid(final TaxiStatus status, final int value, final String name) {
+			assertThat(TaxiStatusMapper.toDao(status)).isEqualTo(value);
+		}
+	}
+
+	@Nested
 	class ToDto {
 
 		@ParameterizedTest

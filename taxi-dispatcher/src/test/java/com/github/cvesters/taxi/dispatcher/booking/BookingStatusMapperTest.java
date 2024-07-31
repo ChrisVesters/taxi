@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -48,6 +49,22 @@ class BookingStatusMapperTest {
 		@MethodSource("com.github.cvesters.taxi.dispatcher.booking.BookingStatusMapperTest#statusMappings")
 		void valid(final BookingStatus status, final int value, final String name) {
 			assertThat(BookingStatusMapper.toDao(status)).isEqualTo(value);
+		}
+	}
+
+	@Nested
+	class FromDto {
+
+		@ParameterizedTest
+		@MethodSource("com.github.cvesters.taxi.dispatcher.booking.BookingStatusMapperTest#statusMappings")
+		void valid(final BookingStatus status, final int value, final String name) {
+			assertThat(BookingStatusMapper.fromDto(name)).isEqualTo(status);
+		}
+
+		@Test
+		void invalid() {
+			assertThatThrownBy(() -> BookingStatusMapper.fromDto("invalid"))
+					.isInstanceOf(IllegalArgumentException.class);
 		}
 	}
 

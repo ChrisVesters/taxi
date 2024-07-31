@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.cvesters.taxi.dispatcher.booking.bdo.Booking;
 import com.github.cvesters.taxi.dispatcher.booking.dao.BookingDao;
+import com.github.cvesters.taxi.dispatcher.taxi.TaxiService;
 
 @ExtendWith(MockitoExtension.class)
 class BookingServiceTest {
@@ -27,13 +28,16 @@ class BookingServiceTest {
 	private BookingRepository bookingRepository;
 
 	@Mock
+	private TaxiService taxiService;
+
+	@Mock
 	private BookingQueueSender bookingSender;
 
 	private BookingService service;
 
 	@BeforeEach
 	void setup() {
-		service = new BookingService(bookingRepository, bookingSender);
+		service = new BookingService(bookingRepository, taxiService, bookingSender);
 	}
 
 	@Nested
