@@ -1,7 +1,6 @@
 package com.github.cvesters.taxi.dispatcher;
 
 import java.time.Duration;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,17 +36,22 @@ public class Simulation {
 		}
 
 		final var simulation = new Thread(() -> {
-			try {
-				while (true) {
+			while (true) {
+				try {
+					Thread.sleep(INTERVAL.toMillis() / speed);
+				} catch (final InterruptedException e) {
+					// Time to stop;
+					return;
+				}
+
+				try {
 					final Location start = new Location(0.0, 0.0);
 					final Location destination = new Location(0.1, 0.1);
 					final Booking booking = new Booking(start, destination);
-					bookingService.create(booking);
-
-					Thread.sleep(INTERVAL.toMillis() / speed);
+					final Booking created = bookingService.create(booking);
+					System.out.println("Created new booking " + created.getId());
+				} catch (final Exception e) {
 				}
-			} catch (final InterruptedException e) {
-				// Time to stop;
 			}
 		});
 

@@ -15,8 +15,9 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class Simulation {
 
+	private static final Duration BREAK_PERIOD = Duration.ofMinutes(1);
 	private static final Duration MIN_DURATION = Duration.ofMinutes(5);
-	private static final Duration MAX_DURATION = Duration.ofMinutes(30);
+	private static final Duration MAX_DURATION = Duration.ofMinutes(20);
 
 	private static final Random RNG = new Random();
 
@@ -43,30 +44,53 @@ public class Simulation {
 		}
 
 		final var simulation = new Thread(() -> {
-			try {
-				while (true) {
-					System.out.println("Looking for new booking");
-					final Booking booking = getBooking();
 
-					booking.accept(state.getId());
-					System.out.println("Accepted booking " + booking.getId());
-					receiver.updateBooking(booking);
-					state.setCurrentBooking(booking);
+			while (true) {
+				try {
+					Thread.sleep(BREAK_PERIOD.toMillis() / speed);
+				} catch (final InterruptedException e) {
+					// Time to stop;
+					return;
+				}
 
+				final Booking booking;
+
+				if (state.getCurrentBooking() != null) {
+					booking = state.getCurrentBooking();
+				} else {
+					try {
+						System.out.println("Looking for new booking");
+						booking = getBooking();
+
+						booking.accept(state.getId());
+						System.out.println("Accepted booking " + booking.getId());
+						receiver.updateBooking(booking);
+						state.setCurrentBooking(booking);
+					} catch (final Exception e) {
+						continue;
+					}
+				}
+
+				try {
 					final long duration = RNG.nextLong(MIN_DURATION.toMillis(), MAX_DURATION.toMillis());
 					Thread.sleep(duration / speed);
+				} catch (final InterruptedException e) {
+					// Time to stop;
+					return;
+				}
 
+				try {
 					booking.complete();
 					System.out.println("Completed booking " + booking.getId());
 					receiver.updateBooking(booking);
 					state.setCurrentBooking(null);
+				} catch (final Exception e) {
 				}
-			} catch (final InterruptedException e) {
-				// Time to stop;
 			}
 		});
 
 		simulation.start();
+
 	}
 
 	private Booking getBooking() {
