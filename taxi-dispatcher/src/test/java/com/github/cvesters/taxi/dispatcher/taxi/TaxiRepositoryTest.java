@@ -16,7 +16,7 @@ import com.github.cvesters.taxi.dispatcher.taxi.dao.TaxiDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-@Sql({ "/db/taxi.sql" })
+@Sql("/db/taxi.sql")
 @DataJpaTest
 @AutoConfigureTestDatabase
 class TaxiRepositoryTest {
@@ -37,6 +37,7 @@ class TaxiRepositoryTest {
 			final Long expectedCount = (Long) entityManager.createNativeQuery("select COUNT(*) from taxis")
 					.getSingleResult();
 			assertThat(taxis)
+					.isNotEmpty()
 					.hasSize(expectedCount.intValue())
 					.allSatisfy(taxi -> {
 						final TaxiDao expected = entityManager.find(TaxiDao.class, taxi.getId());

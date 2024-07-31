@@ -25,7 +25,7 @@ public class BookingQueueReceiver {
   }
 
   public Optional<Booking> getBooking() {
-    final Message message = rabbitTemplate.receive(BookingQueueConfig.QUEUE_NAME, WAIT_TIME.toMillis());
+    final Message message = rabbitTemplate.receive(BookingQueueConfig.NEW_BOOKINGS_QUEUE, WAIT_TIME.toMillis());
 
     return Optional.ofNullable(message)
         .map(m -> {

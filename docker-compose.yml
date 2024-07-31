@@ -1,7 +1,43 @@
 services:
   rabbitMQ:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
-    
+
+  dispatcher:
+    container_name: dispatcher
+    environment:
+      spring.rabbitmq.host: rabbitmq
+    build:
+      context: taxi-dispatcher
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  agent-1:
+    container_name: agent-1
+    environment:
+      taxi.agent.id: 1
+      spring.rabbitmq.host: rabbitmq
+    build:
+      context: taxi-agent
+      dockerfile: Dockerfile
+
+  agent-2:
+    container_name: agent-2
+    environment:
+      taxi.agent.id: 2
+      spring.rabbitmq.host: rabbitmq
+    build:
+      context: taxi-agent
+      dockerfile: Dockerfile
+
+  front-end:
+    container_name: front-end
+    build:
+      context: front-end
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
